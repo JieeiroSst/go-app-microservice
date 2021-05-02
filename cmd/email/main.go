@@ -1,13 +1,13 @@
 package main
 
 import (
+	"github.com/JIeeiroSst/go-app/internal/server/email"
 	"log"
 	"os"
 
 	"github.com/opentracing/opentracing-go"
 
 	"github.com/JIeeiroSst/go-app/config"
-	"github.com/JIeeiroSst/go-app/internal/server"
 	"github.com/JIeeiroSst/go-app/pkg/jaeger"
 	"github.com/JIeeiroSst/go-app/pkg/logger"
 	"github.com/JIeeiroSst/go-app/pkg/mailer"
@@ -61,7 +61,7 @@ func main() {
 	mailDialer := mailer.NewMailDialer(cfg)
 	appLogger.Info("Mail dialer connected")
 
-	s := server.NewEmailsServer(amqpConn, appLogger, cfg, mailDialer, psqlDB)
+	s := email.NewEmailsServer(amqpConn, appLogger, cfg, mailDialer, psqlDB)
 
 	appLogger.Fatal(s.Run())
 }
