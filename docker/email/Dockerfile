@@ -4,7 +4,7 @@ ENV config=docker
 
 WORKDIR /app
 
-COPY ./ /app
+COPY .. /app
 
 RUN go mod download
 
