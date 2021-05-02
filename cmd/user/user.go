@@ -3,13 +3,11 @@ package main
 import (
 	"github.com/JIeeiroSst/go-app/config"
 	"github.com/JIeeiroSst/go-app/internal/models/user"
-	"github.com/JIeeiroSst/go-app/internal/user/delivery/http"
-	"github.com/JIeeiroSst/go-app/internal/user/usercase"
+	server "github.com/JIeeiroSst/go-app/internal/server/user"
 	"github.com/JIeeiroSst/go-app/pkg/jwt"
 	"github.com/JIeeiroSst/go-app/pkg/logger"
 	"github.com/JIeeiroSst/go-app/pkg/postgres"
 	"github.com/JIeeiroSst/go-app/utils"
-	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
 	"os"
 )
@@ -41,10 +39,7 @@ func main(){
 	tokenUser :=jwt.NewTokenUser(user.Users{},cfg)
 	hash:=utils.NewHash()
 
-	userCase :=usercase.NewUserCase(plsqlDB,*hash,*tokenUser,*cfg)
+	s:=server.NewServer(plsqlDB,cfg,tokenUser,hash)
 
-	e:=echo.New()
-	http.NewUserHTTP(e, userCase)
-
-	e.Logger.Fatal(":8080")
+	appLogger.Fatal(s.Run())
 }
