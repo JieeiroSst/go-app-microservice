@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="bbb9b631-5729-4f7f-9ee9-4276ef1a984b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/user/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/user/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/server/email/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/server/email/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/server/user/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/server/user/server.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,10 +40,14 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
     <property name="ignore_missing_gitignore" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/docker/user" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/docker/user" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/docker/email" />
       <recent name="$PROJECT_DIR$/internal/server/email" />
       <recent name="$PROJECT_DIR$/cmd/email" />
       <recent name="$PROJECT_DIR$" />

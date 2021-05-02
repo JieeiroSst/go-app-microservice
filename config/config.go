@@ -26,6 +26,7 @@ type Config struct {
 type ServerConfig struct {
 	AppVersion        string
 	Port              string
+	UserPost		  string
 	PprofPort         string
 	Mode              string
 	JwtSecretKey      string

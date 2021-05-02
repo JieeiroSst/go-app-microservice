@@ -30,6 +30,6 @@ func (s *Server) Run() error {
 	userCase :=usercase.NewUserCase(s.db,*s.hash,*s.jwt,*s.cfg)
 	e:=echo.New()
 	http.NewUserHTTP(e, userCase)
-	e.Logger.Fatal(":8080")
+	e.Logger.Fatal(s.cfg.Server.UserPost)
 	return nil
 }
