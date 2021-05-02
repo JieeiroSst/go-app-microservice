@@ -2,16 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bbb9b631-5729-4f7f-9ee9-4276ef1a984b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/middleware/access_control.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/bigcache/bigcache.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/conf/basic_policy.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/conf/rbac_model.conf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/jwt/jwt.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/response/response.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/models/user/user.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/server/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/server/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/middleware/access_control.go" beforeDir="false" afterPath="$PROJECT_DIR$/middleware/access_control.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/bigcache/bigcache.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/bigcache/bigcache.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/jwt/jwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/jwt/jwt.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

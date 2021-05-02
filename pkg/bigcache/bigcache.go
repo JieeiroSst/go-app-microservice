@@ -2,6 +2,7 @@ package bigcache
 
 import (
 	"github.com/allegro/bigcache"
+	"net/http"
 	"time"
 )
 
@@ -18,7 +19,7 @@ func init() {
 	_,_=bigcache.NewBigCache(bigcache.DefaultConfig(30*time.Hour))
 }
 
-func (c *Cache) Get(key string)([]byte,error){
-	bytes,err:=c.cache.Get(key)
+func (c *Cache) Get(cookie *http.Cookie)([]byte,error){
+	bytes,err:=c.cache.Get(cookie.Name)
 	return bytes,err
 }

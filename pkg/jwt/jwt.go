@@ -1,40 +1,37 @@
 package jwt
 
 import (
+	"github.com/JIeeiroSst/go-app/config"
+	"github.com/JIeeiroSst/go-app/internal/models/user"
 	"github.com/dgrijalva/jwt-go"
-	"github.com/joho/godotenv"
-	"log"
-	"os"
 	"time"
 )
 
-func GenerateToken(id int,username string) (string, error) {
-	e := godotenv.Load()
-	if e != nil {
-		log.Print(e)
-	}
-	key := os.Getenv("KEY")
+type TokenUser struct {
+	u user.Users
+}
+
+func NewTokenUser(u user.Users) *TokenUser{
+	return &TokenUser{u:u}
+}
+
+func (t *TokenUser) GenerateToken(conf *config.Config) (string, error) {
 	atClaims := jwt.MapClaims{}
 	atClaims["authorized"] = true
-	atClaims["user_id"] = id
-	atClaims["username"]=username
+	atClaims["user_id"] = t.u.Id
+	atClaims["username"]= t.u.Username
 	atClaims["exp"] = time.Now().Add(time.Minute * 15).Unix()
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
-	token, err := at.SignedString([]byte(key))
+	token, err := at.SignedString([]byte(conf.Server.JwtSecretKey))
 	if err != nil {
 		return "", err
 	}
 	return token, nil
 }
 
-func ParseToken(tokenStr string) (string, error) {
-	e := godotenv.Load()
-	if e != nil {
-		log.Print(e)
-	}
-	key := os.Getenv("KEY")
+func (t *TokenUser) ParseToken(tokenStr string,conf *config.Config) (string, error) {
 	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
-		return []byte(key), nil
+		return []byte(conf.Server.JwtSecretKey), nil
 	})
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {

@@ -3,6 +3,7 @@ package server
 
 import (
 	"context"
+	"github.com/labstack/echo/v4"
 	"net"
 	"os"
 	"os/signal"
@@ -12,7 +13,6 @@ import (
 	grpcrecovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
 	grpc_ctxtags "github.com/grpc-ecosystem/go-grpc-middleware/tags"
 	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
-	"github.com/labstack/echo/v4"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/streadway/amqp"
 	"google.golang.org/grpc"
@@ -33,7 +33,6 @@ import (
 	"github.com/JIeeiroSst/go-app/pkg/metrics"
 )
 
-// Server
 type Server struct {
 	db         *gorm.DB
 	mailDialer *gomail.Dialer
@@ -75,6 +74,7 @@ func (s *Server) Run() error {
 
 	router := echo.New()
 	router.GET("/metrics", echo.WrapHandler(promhttp.Handler()))
+
 
 	go func() {
 		if err := router.Start(s.cfg.Metrics.URL); err != nil {

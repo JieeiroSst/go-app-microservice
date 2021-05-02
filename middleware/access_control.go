@@ -4,65 +4,60 @@ import (
 	"errors"
 	"fmt"
 	"github.com/JIeeiroSst/go-app/pkg/jwt"
+	"github.com/JIeeiroSst/go-app/pkg/response"
 	cacheErr "github.com/allegro/bigcache"
 	"github.com/casbin/casbin/v2"
 	"github.com/casbin/casbin/v2/persist"
 	"github.com/gin-gonic/gin"
 	"log"
+
+	"github.com/labstack/echo/v4"
 	"strings"
 
 	"github.com/JIeeiroSst/go-app/pkg/bigcache"
-	"github.com/JIeeiroSst/go-app/pkg/response"
 )
 
-type Author struct {
-	h gin.HandlerFunc
-	c bigcache.Cache
+type Authorization struct {
+	cache bigcache.Cache
 }
 
 
-func (a *Author) Authenticate() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		bearToken:=c.Request.Header.Get("Authorization")
+func (a *Authorization) Authenticate(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		bearToken:=c.Request().Header.Get("Authorization")
 		if bearToken == ""{
-			c.AbortWithStatusJSON(401,response.RestResponse{Message: "Authentication failure: Token not provided"})
-			return
+			return c.JSON(401,"Authentication failure: Token not provided")
 		}
 		strArr := strings.Split(bearToken, " ")
 		message,err:=jwt.ParseToken(strArr[1])
 		if err!=nil{
-			c.AbortWithStatusJSON(400,response.RestResponse{Message: message})
-			return
+		 	return c.JSON(401,message)
 		}
 		sessionId, _ := c.Cookie("current_subject")
-		sub,err:=a.c.Get(sessionId)
+		sub,err:=a.cache.Get(sessionId)
 		if errors.Is(err, cacheErr.ErrEntryNotFound) {
-			c.AbortWithStatusJSON(401, response.RestResponse{Message: "user hasn't logged in yet"})
-			return
+			return c.JSON(401,"user hasn't logged in yet")
 		}
 		c.Set("current_subject", string(sub))
-		c.Next()
+		return next(c)
 	}
 }
 
-func (a *Author) Authorize(obj string, act string, adapter persist.Adapter) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		val, existed := c.Get("current_subject")
-		if !existed {
-			c.AbortWithStatusJSON(401, response.RestResponse{Message: "user hasn't logged in yet"})
-			return
+func (a *Authorization) Authorize(obj string, act string, adapter persist.Adapter,next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		cookie, _ := c.Cookie("current_subject")
+		val, existed := a.cache.Get(cookie)
+		if existed!=nil {
+			return c.JSON(401,"user hasn't logged in yet")
 		}
-		ok, err := enforce(val.(string), obj, act, adapter)
+		ok, err := enforce(string(val), obj, act, adapter)
 		if err != nil {
-			log.Println(err)
-			c.AbortWithStatusJSON(500, response.RestResponse{Message: "error occurred when authorizing user"})
-			return
+			return c.JSON(500,"error occurred when authorizing user")
 		}
 		if !ok {
-			c.AbortWithStatusJSON(403, response.RestResponse{Message: "forbidden"})
-			return
+			return c.JSON(500,"forbidden")
 		}
-		c.Next()
+		return next(c)
 	}
 }
 
