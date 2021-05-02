@@ -4,9 +4,12 @@ go 1.15
 
 require (
 	github.com/HdrHistogram/hdrhistogram-go v1.1.0 // indirect
+	github.com/allegro/bigcache v1.2.1 // indirect
+	github.com/gin-gonic/gin v1.7.1 // indirect
 	github.com/go-playground/validator/v10 v10.5.0
 	github.com/google/uuid v1.2.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0 // indirect
+	github.com/joho/godotenv v1.3.0 // indirect
 	github.com/labstack/echo/v4 v4.2.2 // indirect
 	github.com/microcosm-cc/bluemonday v1.0.9
 	github.com/opentracing/opentracing-go v1.2.0
