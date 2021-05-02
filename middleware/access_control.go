@@ -4,12 +4,9 @@ import (
 	"errors"
 	"fmt"
 	"github.com/JIeeiroSst/go-app/pkg/jwt"
-	"github.com/JIeeiroSst/go-app/pkg/response"
 	cacheErr "github.com/allegro/bigcache"
 	"github.com/casbin/casbin/v2"
 	"github.com/casbin/casbin/v2/persist"
-	"github.com/gin-gonic/gin"
-	"log"
 
 	"github.com/labstack/echo/v4"
 	"strings"
@@ -19,6 +16,7 @@ import (
 
 type Authorization struct {
 	cache bigcache.Cache
+	jwt jwt.TokenUser
 }
 
 
@@ -29,7 +27,7 @@ func (a *Authorization) Authenticate(next echo.HandlerFunc) echo.HandlerFunc {
 			return c.JSON(401,"Authentication failure: Token not provided")
 		}
 		strArr := strings.Split(bearToken, " ")
-		message,err:=jwt.ParseToken(strArr[1])
+		message,err:=a.jwt.ParseToken(strArr[1])
 		if err!=nil{
 		 	return c.JSON(401,message)
 		}

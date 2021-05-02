@@ -9,29 +9,30 @@ import (
 
 type TokenUser struct {
 	u user.Users
+	conf *config.Config
 }
 
-func NewTokenUser(u user.Users) *TokenUser{
-	return &TokenUser{u:u}
+func NewTokenUser(u user.Users,conf *config.Config) *TokenUser{
+	return &TokenUser{u:u,conf:conf}
 }
 
-func (t *TokenUser) GenerateToken(conf *config.Config) (string, error) {
+func (t *TokenUser) GenerateToken() (string, error) {
 	atClaims := jwt.MapClaims{}
 	atClaims["authorized"] = true
 	atClaims["user_id"] = t.u.Id
 	atClaims["username"]= t.u.Username
 	atClaims["exp"] = time.Now().Add(time.Minute * 15).Unix()
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
-	token, err := at.SignedString([]byte(conf.Server.JwtSecretKey))
+	token, err := at.SignedString([]byte(t.conf.Server.JwtSecretKey))
 	if err != nil {
 		return "", err
 	}
 	return token, nil
 }
 
-func (t *TokenUser) ParseToken(tokenStr string,conf *config.Config) (string, error) {
+func (t *TokenUser) ParseToken(tokenStr string) (string, error) {
 	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
-		return []byte(conf.Server.JwtSecretKey), nil
+		return []byte(t.conf.Server.JwtSecretKey), nil
 	})
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {

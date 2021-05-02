@@ -23,3 +23,15 @@ func (c *Cache) Get(cookie *http.Cookie)([]byte,error){
 	bytes,err:=c.cache.Get(cookie.Name)
 	return bytes,err
 }
+
+func (c *Cache) Iterator() *bigcache.EntryInfoIterator{
+	return c.cache.Iterator()
+}
+
+func (c *Cache) Delete(key string) error{
+	return c.cache.Delete(key)
+}
+
+func (c *Cache) Set(key string,bytes []byte)error{
+	return c.cache.Set(key,bytes)
+}
