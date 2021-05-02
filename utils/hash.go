@@ -5,8 +5,10 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type Hash struct {
+type Hash struct {}
 
+func NewHash()*Hash{
+	return &Hash{}
 }
 
 func (h *Hash) HashPassword(password string) (string, error) {

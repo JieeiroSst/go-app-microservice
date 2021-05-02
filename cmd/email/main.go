@@ -18,7 +18,7 @@ import (
 func main() {
 	log.Println("Starting server")
 
-	configPath := config.GetConfigPath(os.Getenv("config"))
+	configPath := config.GetConfigPath(os.Getenv("docker"))
 	cfg, err := config.GetConfig(configPath)
 	if err != nil {
 		log.Fatalf("Loading config: %v", err)

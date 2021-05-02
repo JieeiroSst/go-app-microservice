@@ -6,6 +6,7 @@ import (
 	"github.com/JIeeiroSst/go-app/internal/user"
 	"github.com/JIeeiroSst/go-app/pkg/jwt"
 	"github.com/JIeeiroSst/go-app/utils"
+	"gorm.io/gorm"
 	"log"
 )
 
@@ -16,7 +17,7 @@ type UserUseCase struct {
 	conf config.Config
 }
 
-func NewUserCase(userRepo user.UserRepository, hash utils.Hash, jwt jwt.TokenUser, conf config.Config) *UserUseCase{
+func NewUserCase(userRepo *gorm.DB, hash utils.Hash, jwt jwt.TokenUser, conf config.Config) *UserUseCase {
 	return &UserUseCase{
 		userRepo:userRepo,
 		hash:hash,
